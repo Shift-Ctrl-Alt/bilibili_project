@@ -3,7 +3,7 @@ package com.oymn.bilibili.service;
 import com.mysql.cj.util.StringUtils;
 import com.oymn.bilibili.dao.UserDao;
 import com.oymn.bilibili.domain.User;
-import com.oymn.bilibili.domain.UserConstant;
+import com.oymn.bilibili.constant.UserConstant;
 import com.oymn.bilibili.domain.UserInfo;
 import com.oymn.bilibili.exception.ConditionException;
 import com.oymn.bilibili.utils.MD5Util;
@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.concurrent.locks.Condition;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -125,5 +126,13 @@ public class UserService {
         userInfo.setUpdateTime(new Date());
         userDao.updateUserInfo(userInfo);
         
+    }
+
+    public User getUserById(Long followingId) {
+        return userDao.getUserById(followingId);
+    }
+
+    public List<UserInfo> getUserInfoByUserIds(Set<Long> userIdList) {
+        return userDao.getUserInfoByUserIds(userIdList);
     }
 }

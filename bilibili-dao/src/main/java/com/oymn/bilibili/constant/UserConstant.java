@@ -1,4 +1,4 @@
-package com.oymn.bilibili.domain;
+package com.oymn.bilibili.constant;
 
 public class UserConstant {
     public static final String GENDER_MALE = "0";

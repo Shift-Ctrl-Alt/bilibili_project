@@ -4,6 +4,9 @@ import com.oymn.bilibili.domain.User;
 import com.oymn.bilibili.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Set;
+
 @Mapper
 public interface UserDao {
     
@@ -22,4 +25,6 @@ public interface UserDao {
     Integer updateUserInfo(UserInfo userInfo);
 
     User getUserByPhoneOrEmail(String phone, String email);
+
+    List<UserInfo> getUserInfoByUserIds(Set<Long> userIdList);
 }

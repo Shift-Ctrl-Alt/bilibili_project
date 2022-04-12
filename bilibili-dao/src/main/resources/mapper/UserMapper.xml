@@ -92,6 +92,20 @@
         where
             phone = #{phone} or email = #{email}
     </select>
+    <select id="getUserInfoByUserIds" resultType="com.oymn.bilibili.domain.UserInfo">
+        select
+        *
+        from
+        t_user_info
+        where
+        1=1
+        <if test="userIdList != null and userIdList.size > 0">
+            and userId in
+            <foreach collection="userIdList" item = "userId" index="index" open="(" close=")" separator=",">
+                #{userId}
+            </foreach>
+        </if>
+    </select>
 
 
 </mapper>
