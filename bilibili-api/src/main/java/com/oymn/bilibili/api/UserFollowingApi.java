@@ -1,9 +1,11 @@
 package com.oymn.bilibili.api;
 
 import com.oymn.bilibili.api.support.UserSupport;
+import com.oymn.bilibili.constant.AuthRoleConstant;
 import com.oymn.bilibili.domain.FollowingGroup;
 import com.oymn.bilibili.domain.JsonResponse;
 import com.oymn.bilibili.domain.UserFollowing;
+import com.oymn.bilibili.domain.annotation.ApiLimitedRole;
 import com.oymn.bilibili.service.UserFollowingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ public class UserFollowingApi {
 
     
     //关注用户
+    @ApiLimitedRole(limitedRoleCodeList = AuthRoleConstant.ROLE_LV0)  //Lv0不能关注用户
     @PostMapping("/user-followings")
     public JsonResponse<String> addUserFollowings(@RequestBody UserFollowing userFollowing){
         Long userId = userSupport.getCurrentUserId();
@@ -33,6 +36,7 @@ public class UserFollowingApi {
     }
     
     //获取用户的关注
+    @ApiLimitedRole(limitedRoleCodeList = AuthRoleConstant.ROLE_LV0)  //Lv0获取不到关注的用户
     @GetMapping("/user-followings")
     public JsonResponse<List<FollowingGroup>> getUserFollowings(){
         Long userId = userSupport.getCurrentUserId();
@@ -41,6 +45,7 @@ public class UserFollowingApi {
     }
     
     //获取用户的粉丝
+    @ApiLimitedRole(limitedRoleCodeList = AuthRoleConstant.ROLE_LV0)  //Lv0不能获取不到粉丝
     @GetMapping("/user-fans")
     public JsonResponse<List<UserFollowing>> getUserFans(){
         Long userId = userSupport.getCurrentUserId();
@@ -49,6 +54,7 @@ public class UserFollowingApi {
     }
     
     //添加新的分组
+    @ApiLimitedRole(limitedRoleCodeList = AuthRoleConstant.ROLE_LV0)  //Lv0不能添加新的分组
     @PostMapping("/user-following-groups")
     public JsonResponse<Long> addUserFollowingGroups(@RequestBody FollowingGroup followingGroup){
         Long userId = userSupport.getCurrentUserId();
@@ -58,6 +64,7 @@ public class UserFollowingApi {
     }
     
     //显示用户的所有分组
+    @ApiLimitedRole(limitedRoleCodeList = AuthRoleConstant.ROLE_LV0)  //Lv0不能获取分组
     @GetMapping("/user-following-groups")
     public JsonResponse<List<FollowingGroup>> getUserFollowingGroups(){
         Long userId = userSupport.getCurrentUserId();

@@ -19,7 +19,7 @@ public class TokenUtil {
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.SECOND, 30);
+        calendar.add(Calendar.HOUR, 1);
         
         return JWT.create()
                 .withKeyId(String.valueOf(userId))   //存放用户id
@@ -45,5 +45,19 @@ public class TokenUtil {
             throw new ConditionException("非法用户token!");
         }
         
+    }
+
+    public static String generateRefreshToken(Long userId) throws Exception {
+        Algorithm algorithm = Algorithm.RSA256(RSAUtil.getPublicKey(), RSAUtil.getPrivateKey());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+
+        return JWT.create()
+                .withKeyId(String.valueOf(userId))   //存放用户id
+                .withIssuer(ISSUER)     //设置签发者
+                .withExpiresAt(calendar.getTime())   //设置过期时间
+                .sign(algorithm);
     }
 }

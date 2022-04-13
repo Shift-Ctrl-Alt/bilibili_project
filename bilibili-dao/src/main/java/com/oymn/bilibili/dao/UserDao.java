@@ -1,9 +1,11 @@
 package com.oymn.bilibili.dao;
 
+import com.oymn.bilibili.domain.RefreshTokenDetail;
 import com.oymn.bilibili.domain.User;
 import com.oymn.bilibili.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -27,4 +29,10 @@ public interface UserDao {
     User getUserByPhoneOrEmail(String phone, String email);
 
     List<UserInfo> getUserInfoByUserIds(Set<Long> userIdList);
+
+    void deleteRefreshToken(String refreshToken, Long userId);
+
+    void addRefreshToken(String refreshToken, Long userId, Date creatTime);
+
+    RefreshTokenDetail getRefreshTokenDetail(String refreshToken);
 }

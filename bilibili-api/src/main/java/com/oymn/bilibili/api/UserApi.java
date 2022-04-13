@@ -9,6 +9,9 @@ import com.oymn.bilibili.utils.RSAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 @RestController
 public class UserApi {
 
@@ -66,6 +69,29 @@ public class UserApi {
         return JsonResponse.success();
     }
     
+    //双token实现登录功能（对上面登录接口的升级）
+    @PostMapping("/user-dts")   //double tokens
+    public JsonResponse<Map<String, Object>> loginForDts(@RequestBody User user) throws Exception {
+        Map<String, Object> map = userService.loginForDts(user);
+        return new JsonResponse<>(map);
+    }
+    
+    //退出登录
+    @DeleteMapping("/refresh-tokens")
+    public JsonResponse<String> logout(HttpServletRequest request){
+        String refreshToken = request.getHeader("refreshToken");
+        Long userId = userSupport.getCurrentUserId();
+        userService.logout(refreshToken, userId);
+        return JsonResponse.success();
+    }
+    
+    //重新刷新accessToken，延长登录时间
+    @PostMapping("/access-tokens")
+    public JsonResponse<String> refreshAccessToken(HttpServletRequest request) throws Exception {
+        String refreshToken = request.getHeader("refreshToken");
+        String accessToken = userService.refreshAccessToken(refreshToken);
+        return new JsonResponse<>(accessToken);
+    }
     
     
 }

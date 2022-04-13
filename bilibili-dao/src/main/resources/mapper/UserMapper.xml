@@ -32,6 +32,17 @@
                 #{birth},
                 #{createTime})
     </insert>
+    <insert id="addRefreshToken">
+        insert into t_refresh_token(
+            refreshToken,
+            userId,
+            createTime
+        ) values (
+            #{refreshToken},
+            #{userId},
+            #{creatTime}
+        )
+    </insert>
     <update id="updateUser">
         update
             t_user
@@ -66,6 +77,10 @@
         where
             id = #{id}
     </update>
+    <delete id="deleteRefreshToken">
+        delete from t_refresh_token
+        where refreshToken = #{refreshToken} and userId = #{userId}
+    </delete>
 
     <select id="getUserByPhone" parameterType="java.lang.String" resultType="com.oymn.bilibili.domain.User">
         select *
@@ -105,6 +120,11 @@
                 #{userId}
             </foreach>
         </if>
+    </select>
+    <select id="getRefreshTokenDetail" resultType="com.oymn.bilibili.domain.RefreshTokenDetail">
+        select *
+        from t_refresh_token
+        where refreshToken = #{refreshToken};
     </select>
 
 
