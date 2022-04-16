@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oymn.bilibili.dao.VideoLikeDao">
+    
+    <insert id="saveVideoLike">
+        insert into t_video_like(
+            userId, videoId
+        ) VALUES
+        <foreach collection="videoLikeList" item="videoLike" separator=",">
+            (
+                #{videoLike.userId},
+                #{videoLike.videoId},
+            )
+        </foreach>
+    </insert>
+    <insert id="insertVideoLike">
+        insert into t_video_like(userId, videoId) values (#{userId}, #{videoId})
+    </insert>
+
+    <delete id="deleteVideoLike">
+        delete from t_video_like
+        where userId = #{userId} and videoId = #{videoId}
+    </delete>
+
+    <select id="getVideoLikesByUserIdAndVideoId" resultType="com.oymn.bilibili.domain.VideoLike">
+        select
+            *
+        from
+            t_video_like
+        where
+            videoId = #{videoId}
+          and userId = #{userId}
+    </select>
+</mapper>

@@ -44,6 +44,69 @@
             )
         </foreach>
     </insert>
+    <insert id="addVideoCollection">
+        insert into
+            t_video_collection(
+            userId,
+            videoId,
+            groupId,
+            createTime
+        )values(
+                   #{userId},
+                   #{videoId},
+                   #{groupId},
+                   #{createTime}
+               )
+    </insert>
+    <insert id="addVideoCoin">
+        insert into
+            t_video_coin(
+            userId,
+            videoId,
+            amount,
+            createTime
+        )values(
+                   #{userId},
+                   #{videoId},
+                   #{amount},
+                   #{createTime}
+               )
+    </insert>
+    <insert id="addVideoComments">
+        insert into
+            t_video_comment(
+            videoId,
+            userId,
+            comment,
+            replyUserId,
+            rootId,
+            createTime
+        )values(
+                   #{videoId},
+                   #{userId},
+                   #{comment},
+                   #{replyUserId},
+                   #{rootId},
+                   #{createTime}
+               )
+    </insert>
+    <update id="updateVideoCoin">
+        update
+            t_video_coin
+        set
+            amount = #{amount},
+            updateTime = #{updateTime}
+        where
+            videoId = #{videoId}
+          and userId = #{userId}
+    </update>
+    <delete id="deleteVideoCollection">
+        delete from
+            t_video_collection
+        where
+            videoId = #{videoId}
+          and userId = #{userId}
+    </delete>
     <select id="pageCountVideos" parameterType="java.util.Map" resultType="java.lang.Integer">
         select
             count(1)
@@ -67,5 +130,87 @@
         </if>
         order by id desc
         limit #{start}, #{limit}
+    </select>
+    <select id="getVideoById" resultType="com.oymn.bilibili.domain.Video">
+        select
+            *
+        from
+            t_video
+        where
+            id = #{id}
+    </select>
+    <select id="getVideoCollections" resultType="java.lang.Long">
+        select
+            count(1)
+        from
+            t_video_collection
+        where
+            videoId = #{videoId}
+    </select>
+    <select id="getVideoCollectionByUserIdAndVideoId" resultType="com.oymn.bilibili.domain.VideoCollection">
+        select
+            *
+        from
+            t_video_collection
+        where
+            videoId = #{videoId}
+          and userId = #{userId}
+    </select>
+    <select id="getVideoCoinByUserIdAndVideoId" resultType="com.oymn.bilibili.domain.VideoCoin">
+        select
+            *
+        from
+            t_video_coin
+        where
+            videoId = #{videoId}
+          and userId = #{userId}
+    </select>
+    <select id="getVideoCoinsAmount" resultType="java.lang.Integer">
+        select
+            sum(amount)
+        from
+            t_video_coin
+        where
+            videoId = #{videoId}
+    </select>
+    <select id="pageListVideoComments" resultType="com.oymn.bilibili.domain.VideoComment">
+        select
+            *
+        from
+            t_video_comment
+        where
+            videoId = #{videoId}
+          and rootId is null
+        order by id desc
+        limit #{start}, #{limit}
+    </select>
+    <select id="pageCountVideoComments" resultType="java.lang.Integer">
+        select
+            count(1)
+        from
+            t_video_comment
+        where
+            videoId = #{videoId}
+          and rootId is null
+    </select>
+    <select id="batchGetVideoCommentByRootId" resultType="com.oymn.bilibili.domain.VideoComment">
+        select
+        *
+        from
+        t_video_comment
+        where
+        rootId in
+        <foreach collection="rootIdList" item="rootId" open="(" close=")" separator=",">
+            #{rootId}
+        </foreach>
+        order by id
+    </select>
+    <select id="getVideoDetails" resultType="com.oymn.bilibili.domain.Video">
+        select
+            *
+        from
+            t_video
+        where
+            id = #{id}
     </select>
 </mapper>

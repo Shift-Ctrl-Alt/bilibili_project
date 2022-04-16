@@ -35,4 +35,6 @@ public interface UserDao {
     void addRefreshToken(String refreshToken, Long userId, Date creatTime);
 
     RefreshTokenDetail getRefreshTokenDetail(String refreshToken);
+
+    List<UserInfo> batchGetUserInfoByUserIds(Set<Long> userIdList);
 }

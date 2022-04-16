@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oymn.bilibili.dao.VideoDataDao">
+    <insert id="insertLikedCount">
+        INSERT into t_video_data(videoId, likedCount) VALUES (#{videoId}, #{likedCount})
+    </insert>
+    <update id="updateLikedCount">
+        update t_video_data set likedCount = #{likedCount} where videoId = #{videoId}
+    </update>
+
+    <select id="getVideoLikesCount" resultType="java.lang.Long">
+        select likedCount from t_video_data where videoId = #{videoId}
+    </select>
+    <select id="getVideoDataByVideoId" resultType="com.oymn.bilibili.domain.VideoData">
+        select * from t_video_data where videoId = #{videoId}
+    </select>
+</mapper>

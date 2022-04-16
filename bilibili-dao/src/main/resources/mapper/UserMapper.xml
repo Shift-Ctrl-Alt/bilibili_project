@@ -126,6 +126,17 @@
         from t_refresh_token
         where refreshToken = #{refreshToken};
     </select>
+    <select id="batchGetUserInfoByUserIds" resultType="com.oymn.bilibili.domain.UserInfo">
+        select
+        *
+        from
+        t_user_info
+        where
+        userId in
+        <foreach collection="userIdList" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </select>
 
 
 </mapper>
