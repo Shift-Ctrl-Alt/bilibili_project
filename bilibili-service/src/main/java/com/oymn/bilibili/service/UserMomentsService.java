@@ -2,6 +2,7 @@ package com.oymn.bilibili.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.oymn.bilibili.constant.RocketMQConstant;
 import com.oymn.bilibili.constant.UserMomentsConstant;
 import com.oymn.bilibili.dao.UserMomentsDao;
 import com.oymn.bilibili.domain.UserMoment;
@@ -38,7 +39,7 @@ public class UserMomentsService {
         
         //发送动态提醒给粉丝
         DefaultMQProducer producer = (DefaultMQProducer) applicationContext.getBean("momentsProducer");
-        Message message = new Message(UserMomentsConstant.TOPIC_MOMENTS, JSONObject.toJSONString(userMoment).getBytes(StandardCharsets.UTF_8));
+        Message message = new Message(RocketMQConstant.TOPIC_MOMENTS, JSONObject.toJSONString(userMoment).getBytes(StandardCharsets.UTF_8));
         RocketMQUtil.syncSendMsg(producer, message);
     }
 
