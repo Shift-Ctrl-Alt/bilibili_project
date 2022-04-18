@@ -4,7 +4,7 @@
 <mapper namespace="com.oymn.bilibili.dao.UserCoinDao">
     <update id="updateUserCoinAmount">
         update
-            t_user_coin
+            t_video_coin
         set
             amount = #{coinAmount},
             updateTime = #{updateTime}
@@ -16,7 +16,7 @@
         select
             amount
         from
-            t_user_coin
+            t_video_coin
         where
             userId = #{userId}
     </select>

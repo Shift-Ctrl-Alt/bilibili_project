@@ -1,7 +1,9 @@
 package com.oymn.bilibili.api;
 
 import com.oymn.bilibili.api.support.UserSupport;
+import com.oymn.bilibili.dao.repository.VideoRepository;
 import com.oymn.bilibili.domain.*;
+import com.oymn.bilibili.service.ElasticSearchService;
 import com.oymn.bilibili.service.VideoLikeService;
 import com.oymn.bilibili.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class VideoApi {
     
     @Autowired
     private VideoLikeService videoLikeService;
+    
+    @Autowired
+    private ElasticSearchService elasticSearchService;
 
     /**
      * 视频投稿
@@ -31,6 +36,10 @@ public class VideoApi {
         Long userId = userSupport.getCurrentUserId();
         video.setUserId(userId);
         videoService.addVideos(video);
+        
+        //添加视频到es中
+        elasticSearchService.addVideo(video);
+        
         return JsonResponse.success();
     }
 
